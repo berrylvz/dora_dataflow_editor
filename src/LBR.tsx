@@ -29,6 +29,12 @@ export type NodeData = {
     outputs?: string[];  // 流出边名称
     // 以后可以任意扩展：颜色、图标、脚本……
     [key: string]: any;
+    path?: string;
+    build?: string;
+    args?: string;
+    env?: Record<string, string>; // 动态 key/value
+    machine?: string; // 新加
+    deploy?: string;  // 新加（任意其他字段同理）
 };
 
 /* ------------------ 子组件接口（先空着） ------------------ */

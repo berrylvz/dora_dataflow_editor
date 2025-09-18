@@ -1,12 +1,6 @@
 import { Node, Edge } from '@xyflow/react';
 import yaml from 'js-yaml';
-
-export type NodeData = {
-    label?: string;
-    path?: string;
-    inputs?: Record<string, string>; // 形如 { tick: 'dora/timer/millis/50', image: 'camera/image' }
-    outputs?: string[];
-};
+import {NodeData} from "../LBR";
 
 export function buildYaml(nodes: Node<NodeData>[], edges: Edge[]) {
     const yamlNodes: any[] = [];
@@ -27,9 +21,15 @@ export function buildYaml(nodes: Node<NodeData>[], edges: Edge[]) {
 
         yamlNodes.push({
             id: n.data.label,
-            path: `${n.data?.label}.py`,
             inputs: Object.keys(inputs).length ? inputs : undefined,
             outputs: outputs.length ? outputs : undefined,
+            path: n.data?.path || `${n.data?.label}.py`,
+            build: n.data?.build,
+            args: n.data?.args,
+            machine: n.data?.machine,
+            deploy: n.data?.deploy,
+            env: n.data?.env,
+
         });
     });
 
