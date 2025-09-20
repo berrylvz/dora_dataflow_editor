@@ -11,10 +11,10 @@ export interface NodeMeta {
 }
 
 const NODE_TYPES: NodeMeta[] = [
-    {type: 'input', label: '输入', color: '#63b3ed', icon: '🔵'},
-    {type: 'process', label: '处理', color: '#68d391', icon: '⚙️'},
-    {type: 'decision', label: '判断', color: '#f6ad55', icon: '🔀'},
-    {type: 'output', label: '输出', color: '#fc8181', icon: '🟥'},
+    {type: 'Timer', label: 'Timer', color: '#63b3ed', icon: '🔵'},
+    {type: 'Node', label: 'Node', color: '#68d391', icon: '⚙️'},
+    // {type: 'decision', label: '判断', color: '#f6ad55', icon: '🔀'},
+    // {type: 'output', label: '输出', color: '#fc8181', icon: '🟥'},
 ];
 
 interface LeftBarProps {
@@ -51,10 +51,10 @@ const LeftBar: React.FC<LeftBarProps> = ({nodes, edges, onDropNode, onClear}) =>
     return (
         <aside className="left-bar">
             <header className="left-bar__header">
-                <h3>节点库</h3>
+                <h3>Node Hub</h3>
                 <input
                     className="left-bar__search"
-                    placeholder="搜索节点…"
+                    placeholder="Search nodes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
@@ -78,10 +78,10 @@ const LeftBar: React.FC<LeftBarProps> = ({nodes, edges, onDropNode, onClear}) =>
 
             <footer className="left-bar__footer">
                 <button className="btn-clear" onClick={onClear}>
-                    清空画布
+                    Clear
                 </button>
                 <button className="btn-export" onClick={handleExport}>
-                    导出 YAML
+                    Export YAML
                 </button>
             </footer>
         </aside>

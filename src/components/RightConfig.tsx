@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Node} from '@xyflow/react';
 import './RightConfig.css';
-import EnvEditor from "./EnvEditor";
-import {NodeData} from "../LBR";
+import EnvEditor from "./EnvEditor.tsx";
+import {NodeData} from "../page";
 
 interface RightConfigProps {
     node: Node<NodeData> | null;
@@ -16,7 +16,7 @@ const RightConfig: React.FC<RightConfigProps> = ({node, onChange, onClose, onDel
     const [draft, setDraft] = useState<NodeData>({});
 
     useEffect(() => {
-        if (node) setDraft(node.data);
+        if (node) setDraft({...node.data, timeValue: node.data.timeValue, timeUnit: node.data.timeUnit });
     }, [node]);
 
     if (!node) return null;
@@ -38,9 +38,42 @@ const RightConfig: React.FC<RightConfigProps> = ({node, onChange, onClose, onDel
     };
 
     return (
+    node.type === 'Timer' ? (
+        <aside className="right-config">
+            <section className="right-config__body">
+                <div className="field">
+                    <label>Time Value</label>
+                    <input 
+                        type="number" 
+                        value={draft.timerValue} 
+                        onChange={(e) => setDraft({...draft, timerValue: parseInt(e.target.value)})}
+                    />
+                </div>
+                <div className="field">
+                    <label>Time Unit</label>
+                    <select 
+                        value={draft.timeUnit} 
+                        onChange={(e) => setDraft({...draft, timeUnit: e.target.value})}
+                    >
+                        <option value="millis">Milliseconds</option>
+                        <option value="secs">Seconds</option>
+                    </select>
+                </div>
+            </section>
+
+            <footer className="right-config__footer">
+                <button className="btn-save" onClick={handleSave}>
+                    Save
+                </button>
+                <button className="btn-delete" onClick={handleDelete}>
+                    Delete Node
+                </button>
+            </footer>
+        </aside>
+    ) : (
         <aside className="right-config">
             <header className="right-config__header">
-                <h3>节点配置</h3>
+                <h3>Node Config</h3>
                 <button className="btn-close" onClick={onClose}>
                     ✕
                 </button>
@@ -48,31 +81,31 @@ const RightConfig: React.FC<RightConfigProps> = ({node, onChange, onClose, onDel
 
             <section className="right-config__body">
                 <div className="field">
-                    <label>节点名称</label>
+                    <label>Node ID</label>
                     <input value={draft.label} onChange={(e) => setDraft({...draft, label: e.target.value})}/>
                 </div>
 
-                <div className="field">
-                    <label>输入边</label>
-                    <div className="readonly-list">{node.data.inputs?.join(', ') || '无'}</div>
-                </div>
-
-                <div className="field">
-                    <label>输出边</label>
-                    <div className="readonly-list">{node.data.outputs?.join(', ') || '无'}</div>
-                </div>
-
                 {/* ===== 固定文本 ===== */}
-                {['path', 'build', 'args', 'machine', 'deploy'].map((key) => (
+                {['machine', 'build', 'path', 'args'].map((key) => (
                     <div className="field" key={key}>
                         <label>{key}</label>
                         <input value={draft[key]} onChange={(e) => setDraft({...draft, [key]: e.target.value})}/>
                     </div>
                 ))}
 
+                <div className="field">
+                    <label>Input Edges</label>
+                    <div className="readonly-list">{node.data.inputs?.join(', ') || 'None'}</div>
+                </div>
+
+                <div className="field">
+                    <label>Output Edges</label>
+                    <div className="readonly-list">{node.data.outputs?.join(', ') || 'None'}</div>
+                </div>
+
                 {/* ===== 动态 env ===== */}
                 <div className="field">
-                    <label>环境变量 (env)</label>
+                    <label>Env</label>
                     <EnvEditor
                         env={draft.env || {}}
                         onChange={(newEnv) =>setDraft({...draft, env: newEnv})
@@ -83,14 +116,15 @@ const RightConfig: React.FC<RightConfigProps> = ({node, onChange, onClose, onDel
 
             <footer className="right-config__footer">
                 <button className="btn-save" onClick={handleSave}>
-                    保存
+                    Save
                 </button>
                 <button className="btn-delete" onClick={handleDelete}>
-                    删除节点
+                    Delete Node
                 </button>
             </footer>
         </aside>
-    );
+    )
+    )
 };
 
 export default RightConfig;

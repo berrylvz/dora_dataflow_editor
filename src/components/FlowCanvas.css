@@ -12,3 +12,59 @@
     font-size: 12px;
     color: #666;
 }
+
+.timer-node {
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 0; /* 移除圆角 */
+    background: #90EE90; /* 设置绿色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%); /* 创建颠倒梯形 */
+    width: 150px; /* 设置固定宽度以确保梯形效果 */
+}
+
+.timer-node.selected {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.timer-node__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer-node__label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.timer-node__value {
+    font-size: 12px;
+    color: #666;
+}
+
+.input-node {
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    background: #FFA500; /* 设置橙色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+}
+
+.input-node.selected {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.input-node__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

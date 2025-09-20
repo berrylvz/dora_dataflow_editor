@@ -15,14 +15,15 @@ import '@xyflow/react/dist/style.css';
 import './FlowCanvas.css';
 
 /* ---------- 自定义节点类型（可扩展） ---------- */
-import InputNode from './nodes/InputNode.tsx';
-import ProcessNode from './nodes/ProcessNode.tsx';
+import TimerNode from './nodes/TimerNode.tsx';
+import CommNode from './nodes/Node.tsx';
 // import DecisionNode from './nodes/DecisionNode.tsx';
 // import OutputNode from './nodes/OutputNode.tsx';
 
+// 在 nodeTypes 对象中添加新的节点类型
 const nodeTypes: NodeTypes = {
-    input: InputNode,
-    process: ProcessNode,
+    Timer: TimerNode,
+    Node: CommNode,
     // decision: DecisionNode,
     // output: OutputNode,
 };
@@ -42,6 +43,7 @@ export interface FlowCanvasProps {
     onConnect: (conn: any) => void;
     onNodeClick: (node: Node) => void;
     onDropNode: (type: string, position: { x: number; y: number }) => void;
+    onCanvasClick?: () => void;
 }
 
 const FlowCanvas: React.FC<FlowCanvasProps> = (
@@ -53,6 +55,7 @@ const FlowCanvas: React.FC<FlowCanvasProps> = (
         onConnect,
         onNodeClick,
         onDropNode,
+        onCanvasClick,
     }
 ) => {
     const reactFlow = useReactFlow(); // 把屏幕坐标转成 RF 内部坐标
@@ -102,6 +105,13 @@ const FlowCanvas: React.FC<FlowCanvasProps> = (
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
+    // 添加处理画布点击的函数
+    const handlePaneClick = useCallback(() => {
+        if (onCanvasClick) {
+            onCanvasClick();
+        }
+    }, [onCanvasClick]);
+
     return (
         <div className="flow-canvas" onDrop={handleDrop} onDragOver={handleDragOver}>
             <ReactFlow
@@ -111,7 +121,8 @@ const FlowCanvas: React.FC<FlowCanvasProps> = (
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onNodeClick={(_, node) => onNodeClick(node)}
-                // nodeTypes={nodeTypes}
+                onPaneClick={handlePaneClick} // 绑定点击事件
+                nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
                 defaultEdgeOptions={{ type: 'editable' }}
                 fitView
@@ -121,7 +132,7 @@ const FlowCanvas: React.FC<FlowCanvasProps> = (
                 <MiniMap nodeStrokeWidth={3} zoomable pannable/>
                 <Controls position="top-right"/>
                 <Panel position="top-center" className="canvas-hint">
-                    从左侧拖拽节点到画布，点击节点可配置
+                    Drag nodes from the left to the canvas. Click on a node to configure it.
                 </Panel>
             </ReactFlow>
         </div>
