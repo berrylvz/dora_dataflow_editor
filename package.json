@@ -1,20 +1,22 @@
 {
   "name": "my-react-flow-app",
   "private": true,
-  "homepage": "./",
+  "homepage": "https://berrylvz.github.io/dora_dataflow_editor",
   "version": "0.0.0",
   "type": "module",
   "main": "main.js",
   "scripts": {
     "dev": "vite",
     "start": "electron .",
-    "build": "vite build && electron-builder",
-    "deploy": "gh-pages -d build"
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@xyflow/react": "^12.8.5",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-scripts": "^5.0.1"
   },
   "build": {
     "appId": "com.example.myapp",

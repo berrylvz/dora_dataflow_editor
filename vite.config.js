@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
     plugins: [react()],
-    base: './',   // 关键：全部用相对路径
-});
+    base: '/dora_dataflow_editor/',   // ← 关键：跟仓库名一致
+})
