@@ -1,6 +1,8 @@
 # Dora Dataflow Editor
 The Dora Dataflow Editor is a visual dataflow editing tool built with React. It allows users to create, configure, and export dataflow diagrams through a graphical interface.
 
+Note: The browser may not display the text properly in dark mode. Please switch to light mode.
+
 ## Demo
 https://berrylvz.github.io/dora_dataflow_editor/
 
